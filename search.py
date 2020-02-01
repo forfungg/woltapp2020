@@ -20,7 +20,7 @@ def get_tag():
 					res.append(r)
 	ret = {"__search_details" : {"query" : q, "location" : [lon, lat], "results" : len(res)}}
 	ret["restaurants"] = res
-	return jsonify(ret)
+	return jsonify(ret), 200
 
 
 if __name__ == "__main__":

@@ -1,5 +1,5 @@
 {
 	"python.linting.pylintEnabled": true,
 	"python.linting.enabled": true,
-	"python.pythonPath": "C:\\Users\\ForFunGG\\AppData\\Local\\Programs\\Python\\Python38\\python.exe"
+	"python.pythonPath": "/Users/jnovotny/.brew/opt/python/bin/python3.7"
 }

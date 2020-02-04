@@ -37,7 +37,7 @@ def get_random_tag():
 	rng = randint(0, len(t) - 1)
 	return t[rng]
 
-print("SELECT TESTER MODE\n 1 - Selects random tag as a query and location from test_request.json\n 2 - Custom query, random location\n 3 - Fully custom request\n 4 - Error request\n")
+print("SELECT TESTER MODE\n 1 - Selects random tag as a query and location from test_request.json\n 2 - Custom query, random location\n 3 - Fully custom request\n 4 - Incorrect requests\n")
 while True:
 	mode = input()
 	if mode in ["1", "2", "3", "4"]:
@@ -74,10 +74,39 @@ elif mode == "4":
 	lat = loc[1]
 	ret = requests.get(f"http://{localhost_ip}/restaurants/search?q={query}&lat={lat}&lon={lon}")
 	print(ret)
-	print(ret.json())
+	query = "r"
+	print("Testing missing q parameter")
+	ret = requests.get(f"http://{localhost_ip}/restaurants/search?lat={lat}&lon={lon}")
+	print(ret)
+	print("Testing missing lat parameter")
+	ret = requests.get(f"http://{localhost_ip}/restaurants/search?q={query}&lon={lon}")
+	print(ret)
+	print("Testing missing lon parameter")
+	ret = requests.get(f"http://{localhost_ip}/restaurants/search?q={query}&lat={lat}")
+	print(ret)
 	print("Testing POST request")
 	ret = requests.post(f"http://{localhost_ip}/restaurants/search?q={query}&lat={lat}&lon={lon}")
 	print(ret)
 	print("Testing DEL request")
 	ret = requests.delete(f"http://{localhost_ip}/restaurants/search?q={query}&lat={lat}&lon={lon}")
 	print(ret)
+	print("Testing invalid latitudes")
+	lat = 91
+	ret = requests.get(f"http://{localhost_ip}/restaurants/search?q={query}&lat={lat}&lon={lon}")
+	print(f"lat={lat}: {ret}")
+	lat = -91
+	ret = requests.get(f"http://{localhost_ip}/restaurants/search?q={query}&lat={lat}&lon={lon}")
+	print(f"lat={lat}: {ret}")
+	loc = get_random_location()
+	lon = loc[0]
+	lat = loc[1]
+	print("Testing invalid latitudes")
+	lon = 190
+	ret = requests.get(f"http://{localhost_ip}/restaurants/search?q={query}&lat={lat}&lon={lon}")
+	print(f"lon={lon}: {ret}")
+	lon = -190
+	ret = requests.get(f"http://{localhost_ip}/restaurants/search?q={query}&lat={lat}&lon={lon}")
+	print(f"lon={lon}: {ret}")
+	loc = get_random_location()
+	lon = loc[0]
+	lat = loc[1]

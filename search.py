@@ -3,14 +3,34 @@ import json
 from srcs.get_range import get_distance
 app = Flask(__name__)
 
+def validate_params(q, lat, lon):
+	if  q == None or len(q) < 1 or lat == None or lon == None:
+		return False
+	elif not (-90 <= lat <= 90):
+		return False
+	elif not (-180 <= lon <= 180):
+		return False
+	else:
+		return True
+
+def transcribe_float(str_nb):
+	try:
+		nb = float(str_nb)
+	except:
+		nb = None
+	return nb
+
 @app.route("/restaurants/search", methods=['GET'])
-def get_tag():
+def do_search():
 	res = list()
-	q = request.args.get('q').lower()
-	if  q == None or len(q) < 1:
-		return jsonify({"code": 400, "message" : "incorrect param"}), 400 #add min len 1
-	lat = float(request.args.get('lat'))
-	lon = float(request.args.get('lon'))
+	if request.args.get('q'):
+		q = request.args.get('q').lower()
+	else:
+		q = None
+	lat = transcribe_float(request.args.get('lat'))
+	lon = transcribe_float(request.args.get('lon'))
+	if not validate_params(q, lat, lon):
+		return "Bad Request!", 400
 	with open("resources/restaurants.json") as f:
 		data = json.load(f)
 		for r in data["restaurants"]:

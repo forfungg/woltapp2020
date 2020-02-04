@@ -6,7 +6,9 @@ app = Flask(__name__)
 @app.route("/restaurants/search", methods=['GET'])
 def get_tag():
 	res = list()
-	q = request.args.get('q').lower() #add min len 1
+	q = request.args.get('q').lower()
+	if  q == None or len(q) < 1:
+		return jsonify({"code": 400, "message" : "incorrect param"}), 400 #add min len 1
 	lat = float(request.args.get('lat'))
 	lon = float(request.args.get('lon'))
 	with open("resources/restaurants.json") as f:

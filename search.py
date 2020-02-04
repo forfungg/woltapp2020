@@ -3,6 +3,7 @@ import json
 from srcs.get_range import get_distance
 app = Flask(__name__)
 
+# Validates parametres
 def validate_params(q, lat, lon):
 	if  q == None or len(q) < 1 or lat == None or lon == None:
 		return False
@@ -13,6 +14,7 @@ def validate_params(q, lat, lon):
 	else:
 		return True
 
+# Tries to typecast string to float, returns None failure
 def transcribe_float(str_nb):
 	try:
 		nb = float(str_nb)
@@ -40,6 +42,7 @@ def do_search():
 				r['distance'] = get_distance(r_lat, r_lon,lat, lon)
 				if r['distance'] < 3000:
 					res.append(r)
+	#Enveloping the results
 	ret = {"__search_details" : {"query" : q, "location" : [lon, lat], "results" : len(res)}}
 	ret["restaurants"] = res
 	return jsonify(ret), 200

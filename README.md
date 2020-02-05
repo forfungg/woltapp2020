@@ -1,16 +1,22 @@
 # WoltApp Summer 2020
 
-## Requirenments && Installation
+This is my solution for [Wolt's Summer 2020 Internship assignment](https://github.com/woltapp/summer2020)
 
-python3
+## My solution (search.py)
 
-pip install flask
+### Requirements
+	- python3
+	- Flask (pip3 install flask)
 
-run
-	python3 search.py
-	get_request to "running on" IP
+### Usage and output
 
-	'''
+To start the API, run:
+```
+python3 search.py
+```
+
+From the status message retrieve the "Running on" address (similiar to below):
+```
 		python3 search.py
 		* Serving Flask app "search" (lazy loading)
 		* Environment: production
@@ -21,12 +27,59 @@ run
 		* Restarting with stat
 		* Debugger is active!
 		* Debugger PIN: 167-670-610
+```
 
-		Example of request in internet browser:
-		http://127.0.0.1:5000/restaurants/search?q=sushi&lat=60.17045&lon=24.93147
-	'''
+Then either use included tester.py, or create custom request using any internet browser window and the retrieved ip address. From previous example the request could look like this:
+```
+http://127.0.0.1:5000/restaurants/search?q=risotto&lat=60.15260861959699&lon=24.935724109610046
+```
 
-## Descriptions
+As response you should see json formated output including all restaurants from restaurants.json that fulfill given requirements:
+- the querry (q) was found in either name, description or tags of the restaurant
+- the restaurant is located less than 3000 metres from given position
+
+The output is enveloped in order to show search parametres as it is easier to pass additional information this way, if the enveloping is not desired, it can be simply removed from the code. Also the output information includes added field 'distance' wich contains float value of the distance from given position to the restaurant in metres. This change can be as well simply removed if desired so.
+
+Example output for above stated request:
+```
+{
+  "__search_details": {
+    "location": [
+      24.935724109610046, 
+      60.15260861959699
+    ], 
+    "query": "risotto", 
+    "results": 1
+  }, 
+  "restaurants": [
+    {
+      "blurhash": "j2DUFG8jbu8AXuLIT5Tt0B01R2;;", 
+      "city": "Helsinki", 
+      "currency": "EUR", 
+      "delivery_price": 390, 
+      "description": "Japanilaista ramenia parhaimmillaan", 
+      "distance": 1952.8023025841067, 
+      "image": "https://prod-wolt-venue-images-cdn.wolt.com/5d108aa82e757db3f4946ca9/d88ebd36611a5e56bfc6a60264fe3f81", 
+      "location": [
+        24.941786527633663, 
+        60.169934599421396
+      ], 
+      "name": "Momotoko Citycenter", 
+      "online": false, 
+      "tags": [
+        "ramen", 
+        "risotto"
+      ]
+    }
+  ]
+}
+```
+
+### Description and Approach
+
+I've decided to use Flask framework in python3 to create the solution. Flask allows to set up simple api very quickly while still being fairly lighweight.
+
+Crucial points of the assignment were, correct distance calculation based on latitudes and longitudes, simple search in multiple fields and error management.
 
 Return codes
 200 OK	Successful.
@@ -50,14 +103,14 @@ Backend option
 	- Return
 		- JSON object
 			Enveloped
-				'''
+				```
 					location: longitude and latitude of the search request
 					querry: search query of the request
 					results: total amout of found restaurants
 					/*tbd*/
 					return code: api return code
 					return msg: api return message (Success or Error msg)
-				'''
+				```
 		- match q string and within 3km range
 			/* proposal for sorting and returning only open restaurants  with extra params */
 	- Bonus Blurhash
@@ -66,10 +119,11 @@ Backend option
 		- good tests
 		- README.md with clear instructions how to get the project up and running
 
-# Tester
+## Tests (tester.py)
 Requirements
-	pip3 install requests
 	
+	For tests (tester.py)
+	-pip3 install requests
 
 Run
 	python3 tester.py <local_host:port>

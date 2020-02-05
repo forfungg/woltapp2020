@@ -23,7 +23,7 @@ def print_results(restaurants):
 		i += 1
 
 def load_data():
-	with open("test_requests.json") as f:
+	with open("resources/test_requests.json") as f:
 		data = json.load(f)
 	return data["tags"], data["locations"]
 

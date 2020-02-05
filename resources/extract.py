@@ -32,5 +32,5 @@ for n in range(100):
 	locations.append([rlon, rlat])
 
 result['locations'] = locations
-with open('test_requests.json', 'w') as outfile:
+with open('resources/test_requests.json', 'w') as outfile:
     json.dump(result, outfile, indent=4)

@@ -85,65 +85,44 @@ Crucial points of the assignment were, correct distance calculation based on lat
 To calculate the distance I've used the [Spherical Law of Cosines](https://en.wikipedia.org/wiki/Spherical_law_of_cosines), however since I read that with standard average Earth radius the error margin is up 0.3% I decided also to calculate Earth radius on both known latitudes (customer & restaurant) and use their average instead, which should increase the accuracy.\
 The search was fairly simple using python's synax "if string in iterable" and build in string function .lower() to guarantee the precision.\
 Error management considers following and returns relevant standard API code:
-	* query string is less than one character or missing as a whole\
-	* latitude is not in allowed range -90 to +90, not a float number or missing as a whole\
-	* longitude is not in allowd range -180 to +180, not a float number or missing as a whole\
-	* the request method is not GET
+- query string is less than one character or missing as a whole\
+- latitude is not in allowed range -90 to +90, not a float number or missing as a whole\
+- longitude is not in allowd range -180 to +180, not a float number or missing as a whole\
+- the request method is not GET
 
 Return codes\
 200 OK	Successful.\
 400 Bad Request	Bad input parameter.\
 405 Method Not Allowed
 
-## WoltApp Summer 2020
-Backend option
-- REST API
-	- searching restaurants
-		/* method=GET else: return errno 405 */
-	- 3 parameters on request
-		- q: querry string (to be searched in name, tags, description; min length 1)
-			/* missing requirement for len > 0 */
-		- lat: request latitude location
-		- lon: request longtitude location
-			/* missing protection from invalid parameters for lon and lat */
-		/* missing protection from missing parameters or invalid ones */
-		/* errno 400 + msg */
-	- Return
-		- JSON object
-			Enveloped
-				```
-					location: longitude and latitude of the search request
-					querry: search query of the request
-					results: total amout of found restaurants
-					/*tbd*/
-					return code: api return code
-					return msg: api return message (Success or Error msg)
-				```
-		- match q string and within 3km range
-			/* proposal for sorting and returning only open restaurants  with extra params */
-	- Bonus Blurhash
-	- Tips
-		- clean code
-		- good tests
-		- README.md with clear instructions how to get the project up and running
-
 ## Tests (tester.py)
-Requirements
+
+### Requirements
 	
-	For tests (tester.py)
-	-pip3 install requests
+- python3
+- requests module (pip3 install requests)
+- running [search.py](https://github.com/forfungg/woltapp2020#usage-and-output)
 
-Run
-	python3 tester.py <local_host:port>
+If the "Running on" IP address is different than "127.0.0.1:5000" the variable localhost_ip in tester.py (line 6) must be adjusted to the correct value.
 
-Select mode
-	- predefined searches
-		- shows results for bunch of test requests (from test_requests.json)
-	- predefined locations
-		- shows results for custom query with bunch of test locations (from test_requests.json)
-	- custom
+### Usage
 
-Advanced
-	adjust test_requests.json to your preferences
-# To-Do
-	requests json?
+Run the tester.py
+```
+	python3 tester.py
+```
+
+Select mode:
+- Mode 1: Selects random tag and random location from [test_requests.json](resources/test_requests.json) and runs correct GET requests to the API\
+- Mode 2: Choose the search query of your desire, but the location will be randomly selected from [test_requests.json](resources/test_requests.json)\
+- Mode 3: Fully customizable request parametres values
+- Mode 4: Does bunch of incorrect requests on the API
+
+### Extract Script
+
+If you desire to generate new random locations. Or if you're using different sample file than the given restaurants.json, please copy such file to resources/ and/or adjust the path within extract.py code. Then run following from the root:
+```
+python3 resources/extract.py
+```
+
+The scipt extracts all tags from the resource file and generates 100 random locations within rectangle between Suomenlinna and Meilathi hospital (about 7km apart). Also 

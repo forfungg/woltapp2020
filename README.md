@@ -29,7 +29,7 @@ From the status message retrieve the "Running on" address (similiar to below):
 		* Debugger PIN: 167-670-610
 ```
 
-Then either use included tester.py, or create custom request using any internet browser window and the retrieved ip address. From previous example the request could look like this:
+Then either use included [tester.py](https://github.com/forfungg/woltapp2020#tests-testerpy), or create custom request using any internet browser window and the retrieved ip address. From previous example the request could look like this:
 ```
 http://127.0.0.1:5000/restaurants/search?q=risotto&lat=60.15260861959699&lon=24.935724109610046
 ```
@@ -81,11 +81,18 @@ I've decided to use Flask framework in python3 to create the solution. Flask all
 
 Crucial points of the assignment were, correct distance calculation based on latitudes and longitudes, simple search in multiple fields and error management.
 
-Return codes
-200 OK	Successful.
-400 Bad Request	Bad input parameter. Error message should indicate which one and why.
-404 Not Found	Resource not found.
-405 (Method Not Allowed)
+To calculate the distance I've used the [Spherical Law of Cosines](https://en.wikipedia.org/wiki/Spherical_law_of_cosines), however since I read that with standard average Earth radius the error margin is up 0.3% I decided also to calculate Earth radius on both known latitudes (customer & restaurant) and use their average instead, which should increase the accuracy.\
+The search was fairly simple using python's synax "if string in iterable" and build in string function .lower() to guarantee the precision.\
+Error management considers following and returns relevant standard API code:
+	- query string is less than one character or missing as a whole
+	- latitude is not in allowed range -90 to +90, not a float number or missing as a whole
+	- longitude is not in allowd range -180 to +180, not a float number or missing as a whole
+	- the request method is not GET
+
+Return codes\
+200 OK	Successful.\
+400 Bad Request	Bad input parameter.\
+405 Method Not Allowed\
 
 ## WoltApp Summer 2020
 Backend option

@@ -36,7 +36,7 @@ def do_search():
 	with open("resources/restaurants.json") as f:
 		data = json.load(f)
 		for r in data["restaurants"]:
-			if q in r['name'].lower() or q in r['tags'] or q in r['description']:
+			if q in r['name'].lower() or q in r['tags'] or q in r['description'].lower():
 				r_lat = float(r['location'][1])
 				r_lon = float(r['location'][0])
 				r['distance'] = get_distance(r_lat, r_lon,lat, lon)

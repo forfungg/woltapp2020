@@ -5,8 +5,9 @@ This is my solution for [Wolt's Summer 2020 Internship assignment](https://githu
 ## My solution (search.py)
 
 ### Requirements
-	- python3
-	- Flask (pip3 install flask)
+
+	* python3
+	*Flask (pip3 install flask)
 
 ### Usage and output
 
@@ -84,9 +85,9 @@ Crucial points of the assignment were, correct distance calculation based on lat
 To calculate the distance I've used the [Spherical Law of Cosines](https://en.wikipedia.org/wiki/Spherical_law_of_cosines), however since I read that with standard average Earth radius the error margin is up 0.3% I decided also to calculate Earth radius on both known latitudes (customer & restaurant) and use their average instead, which should increase the accuracy.\
 The search was fairly simple using python's synax "if string in iterable" and build in string function .lower() to guarantee the precision.\
 Error management considers following and returns relevant standard API code:
-	* query string is less than one character or missing as a whole
-	* latitude is not in allowed range -90 to +90, not a float number or missing as a whole
-	* longitude is not in allowd range -180 to +180, not a float number or missing as a whole
+	* query string is less than one character or missing as a whole\
+	* latitude is not in allowed range -90 to +90, not a float number or missing as a whole\
+	* longitude is not in allowd range -180 to +180, not a float number or missing as a whole\
 	* the request method is not GET
 
 Return codes\

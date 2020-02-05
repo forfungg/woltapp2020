@@ -6,8 +6,8 @@ This is my solution for [Wolt's Summer 2020 Internship assignment](https://githu
 
 ### Requirements
 
-	* python3
-	*Flask (pip3 install flask)
+* python3
+* Flask (pip3 install flask)
 
 ### Usage and output
 
